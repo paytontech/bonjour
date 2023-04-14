@@ -48,6 +48,7 @@ final public class BonjourSession: NSObject {
         public var defaults: UserDefaults
         public var security: Security
         public var invitation: Invitation
+        public var discoveryInfo: [String : String]?
         
         public init(serviceType: String,
                     peerName: String,
@@ -139,9 +140,9 @@ final public class BonjourSession: NSObject {
         return browser
     }()
 
-    private lazy var advertiser: MCNearbyServiceAdvertiser = {
+    lazy var advertiser: MCNearbyServiceAdvertiser = {
         let advertiser = MCNearbyServiceAdvertiser(peer: self.localPeerID,
-                                                   discoveryInfo: nil,
+                                                   discoveryInfo: self.configuration.discoveryInfo ?? nil,
                                                    serviceType: self.configuration.serviceType)
         advertiser.delegate = self
         return advertiser
